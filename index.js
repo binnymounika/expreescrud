@@ -4,10 +4,11 @@ var mongoose=require('mongoose')
 
 var userModel=require('./model/user')
 var bodyParser=require('body-parser')
-
+var cors=require('cors')
 var app=express()
 app.use(bodyParser.urlencoded({extended:false}))
 app.use(bodyParser.json())
+app.use(cors())
 
 
 mongoose.connect("mongodb://localhost:27017/newdb")
@@ -61,5 +62,36 @@ app.get('/get/:location',function(req,res)
 
 })
 
+app.delete('/del/:location',function(req,res)
+{
+    var pathParam=req.params.location
+    console.log(pathParam)
+    userModel.deleteOne({location:req.params.location}, function (err) {
+        if (err) throw err;
+        res.send('Deleted successfully!');
+    })
+
+
+})
+app.post('/add',function(req,res){
+
+    var um=new userModel()
+    um.name=req.body.name
+    um.location=req.body.location
+    um.year=req.body.year
+    um.save(function(err)
+    {
+        if(err)
+        {
+            res.send(err)
+        }
+        else{
+            res.json({message:'user created'})
+        }
+    })
+
+
+ 
+})
 
 app.listen(8000)
