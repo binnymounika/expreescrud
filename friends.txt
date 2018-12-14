@@ -1,0 +1,14 @@
+import React from 'react';
+class Friends extends React.Component {
+    state = {  }
+    render() { 
+        return (
+
+
+                <li>{this.props.name} {this.props.year} {this.props.location}</li>
+
+          );
+    }
+}
+ 
+export default Friends;
